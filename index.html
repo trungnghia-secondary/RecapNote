@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>RecapNote - AI Transcript</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">RecapNote</div>
+    <nav>
+      <a href="index.html" class="active">Trang chủ</a>
+      <a href="pricing.html">Gói dịch vụ</a>
+      <a href="login.html">Đăng nhập</a>
+    </nav>
+  </header>
+
+  <!-- Upload Section -->
+  <main>
+    <section class="upload-section">
+      <h1>📂 Upload File hoặc Ghi âm</h1>
+      <form id="uploadForm">
+        <input type="file" name="file" required>
+        <div class="options">
+          <label>Ngôn ngữ:</label>
+          <select name="language_code">
+            <option value="vi">Tiếng Việt</option>
+            <option value="en">English</option>
+          </select>
+          <label>Gói xử lý:</label>
+          <select name="package">
+            <option value="free">Free</option>
+            <option value="plus">Plus</option>
+            <option value="premium">Premium</option>
+            <option value="business">Business</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Bắt đầu xử lý</button>
+      </form>
+    </section>
+
+    <!-- Realtime Transcript -->
+    <section class="transcript-section">
+      <h2>📄 Văn bản realtime</h2>
+      <div id="transcript" class="transcript-box"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 RecapNote - AI Transcript</p>
+  </footer>
+</body>
+</html>

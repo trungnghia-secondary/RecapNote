@@ -19,7 +19,4 @@ nav a { margin: 0 1rem; text-decoration: none; color: #333; }
 .plan { background: #f9fafb; padding: 2rem; border-radius: 10px; flex: 1 1 200px; }
 .plan.highlighted { border: 2px solid #4f46e5; background: #eef2ff; }
 
-.faq { padding: 4rem 2rem; }
-details { margin: 1rem 0; }
-
 footer { text-align: center; padding: 1rem; background: #111; color: #eee; }

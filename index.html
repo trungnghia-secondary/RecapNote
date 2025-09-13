@@ -1,25 +1,45 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RecapNote</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RecapNote - Tóm tắt ghi chú bằng giọng nói</title>
+  <link rel="stylesheet" href="style.css" />
+  
+  <!-- Định nghĩa callback trước -->
+  <script>
+    function handleCredentialResponse(response) {
+      try {
+        console.log("ID Token:", response.credential);
+        const data = JSON.parse(atob(response.credential.split('.')[1]));
+        console.log("User Info:", data);
+
+        // Thêm hiển thị user vào header thay vì append lung tung
+        const nav = document.querySelector("nav");
+        const userInfo = document.createElement("span");
+        userInfo.textContent = `👋 Xin chào, ${data.name}`;
+        nav.appendChild(userInfo);
+      } catch (err) {
+        console.error("Google Login error:", err);
+        alert("Đăng nhập Google thất bại!");
+      }
+    }
+  </script>
+
+  <!-- Script Google Identity -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Header -->
   <header class="navbar">
     <div class="logo">
-      <img src="https://raw.githubusercontent.com/trungnghia-secondary/RecapNote/main/RECAPNOTE-LOGO-Black.png" alt="RecapNote Logo">
-      RecapNote
+      <img src="https://raw.githubusercontent.com/trungnghia-secondary/RecapNote/main/RECAPNOTE-LOGO-Black.png" alt="RecapNote Logo" height="32">
+      <span>RecapNote</span>
     </div>
     <nav>
       <a href="#features">Chi tiết</a>
       <a href="#pricing">Giá cả</a>
-    </nav>
-    <!-- Google Sign In -->
-    <div id="g_id_onload"
+      <div id="g_id_onload"
            data-client_id="872966006027-6l69b4h3nnjjnptdbcv3ebksre6oo9l1.apps.googleusercontent.com"
            data-context="signin"
            data-ux_mode="popup"
@@ -33,6 +53,7 @@
            data-text="sign_in_with"
            data-size="large">
       </div>
+    </nav>
   </header>
 
   <!-- Hero -->
@@ -80,7 +101,7 @@
       </div>
       <div class="plan">
         <h3>Premium</h3>
-        <p>VNDD199.000</p>
+        <p>VNĐ199.000</p>
         <ul>
           <li>Model mạnh mẽ hơn</li>
           <li>Tính năng nâng cao</li>
@@ -91,14 +112,7 @@
     </div>
   </section>
 
+  <!-- JS -->
   <script src="script.js"></script>
-  <script>
-    function handleCredentialResponse(response) {
-      const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      alert(`Xin chào ${payload.name} (${payload.email})`);
-      console.log("Google User:", payload);
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 </body>
 </html>

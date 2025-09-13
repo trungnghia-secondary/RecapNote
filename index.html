@@ -35,9 +35,15 @@
     <div class="logo">
       <img src="https://raw.githubusercontent.com/trungnghia-secondary/RecapNote/main/RECAPNOTE-LOGO-Black.png" alt="RecapNote Logo" height="150">
       <span>RecapNote</span>
-      <a href="#features">Chi tiết</a>
-      <a href="#pricing">Giá cả</a>
     </div>
+    <nav class="nav-buttons">
+      <button onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+         Chi tiết
+      </button>
+      <button onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">
+        Giá cả
+      </button>
+    </nav>
     <nav>
       <div id="g_id_onload"
            data-client_id="872966006027-6l69b4h3nnjjnptdbcv3ebksre6oo9l1.apps.googleusercontent.com"
@@ -60,11 +66,6 @@
   <section class="hero">
     <h1>Trợ lí AI tóm tắt</h1>
     <p>Chuyển đổi giọng nói thành văn bản để xử lí dễ dàng hơn</p>
-    <form id="uploadForm">
-      <input type="file" id="fileInput" accept=".txt,.doc,.docx,.pdf,.wav,.mp3" required>
-      <button type="submit">Xử lí</button>
-    </form>
-    <div id="transcript"></div>
   </section>
 
     <!-- Tabs -->

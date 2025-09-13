@@ -93,6 +93,42 @@ nav a:hover {
   background: #3730a3;
 }
 
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.tab-btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: #e5e7eb;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  margin-right: 5px;
+  font-weight: 600;
+}
+
+.tab-btn.active {
+  background: #4f46e5;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
 #transcript {
   margin-top: 1.5rem;
   white-space: pre-line;

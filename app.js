@@ -19,7 +19,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   const transcriptDiv = document.getElementById("transcript");
   transcriptDiv.innerText = "⏳ Processing...";
 
-  const response = await fetch("https://your-backend-url.onrender.com/process_file", {
+  const response = await fetch("https://api-gateway-ovql.onrender.com/submit", {
     method: "POST",
     body: formData
   });
@@ -64,7 +64,7 @@ startBtn.addEventListener("click", async () => {
 
       transcriptDiv.innerText = "⏳ Processing...";
 
-      const response = await fetch("https://your-backend-url.onrender.com/process_file", {
+      const response = await fetch("https://api-gateway-ovql.onrender.com/submit", {
         method: "POST",
         body: formData
       });

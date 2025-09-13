@@ -14,6 +14,18 @@
       <img src="https://raw.githubusercontent.com/trungnghia-secondary/RecapNote/main/RECAPNOTE-LOGO-Black.png" alt="RecapNote Logo">
       <span>RecapNote</span>
     </div>
+    <script>
+    function handleCredentialResponse(response) {
+      console.log("ID Token:", response.credential);
+
+      // Giải mã token JWT để lấy thông tin user
+      const data = JSON.parse(atob(response.credential.split('.')[1]));
+      console.log("User Info:", data);
+
+      // Hiển thị thông tin ngay trên trang
+      document.body.innerHTML += `<p>Xin chào, ${data.name} (${data.email})</p>`;
+    }
+    </script>
     <nav>
       <a href="#features">Chi tiết</a>
       <a href="#pricing">Giá cả</a>
@@ -92,18 +104,6 @@
 
 
   <script src="script.js"></script>
-  <script>
-    function handleCredentialResponse(response) {
-      console.log("ID Token:", response.credential);
-
-      // Giải mã token JWT để lấy thông tin user
-      const data = JSON.parse(atob(response.credential.split('.')[1]));
-      console.log("User Info:", data);
-
-      // Hiển thị thông tin ngay trên trang
-      document.body.innerHTML += `<p>Xin chào, ${data.name} (${data.email})</p>`;
-    }
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 </body>
 </html>

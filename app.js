@@ -1,33 +1,74 @@
-const apiBase = "https://api-gateway-yourdomain.com";
+// Tab switching
+function openTab(evt, tabId) {
+  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+  document.getElementById(tabId).classList.add("active");
+  evt.currentTarget.classList.add("active");
+}
 
-// Upload file
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("uploadForm");
-  if (form) {
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const fileInput = document.getElementById("fileInput");
-      const file = fileInput.files[0];
-      if (!file) return;
+// Upload form
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fileInput = document.getElementById("fileInput");
+  if (!fileInput.files.length) return;
 
-      const formData = new FormData();
-      formData.append("file", file);
+  const formData = new FormData();
+  formData.append("file", fileInput.files[0]);
 
-      const res = await fetch(`${apiBase}/upload`, {
-        method: "POST",
-        body: formData
-      });
-      const data = await res.json();
+  const transcriptDiv = document.getElementById("transcript");
+  transcriptDiv.innerText = "⏳ Processing...";
 
-      // Lắng nghe transcript realtime qua SSE
-      const transcriptBox = document.getElementById("transcriptBox");
-      const eventSource = new EventSource(`${apiBase}/transcript/${data.job_id}`);
-      eventSource.onmessage = (event) => {
-        const p = document.createElement("p");
-        p.textContent = event.data;
-        transcriptBox.appendChild(p);
-        transcriptBox.scrollTop = transcriptBox.scrollHeight;
-      };
-    });
+  const response = await fetch("https://your-backend-url.onrender.com/process_file", {
+    method: "POST",
+    body: formData
+  });
+
+  if (response.ok) {
+    const result = await response.json();
+    transcriptDiv.innerText = result.transcript || result.full_text || "✅ Done";
+  } else {
+    transcriptDiv.innerText = "❌ Error processing file";
   }
+});
+
+// Recording
+let mediaRecorder;
+let audioChunks = [];
+
+document.getElementById("recordBtn").addEventListener("click", async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  mediaRecorder = new MediaRecorder(stream);
+  audioChunks = [];
+
+  mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
+  mediaRecorder.onstop = async () => {
+    const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+    const formData = new FormData();
+    formData.append("file", audioBlob, "recording.wav");
+
+    const recordTranscript = document.getElementById("recordTranscript");
+    recordTranscript.innerText = "⏳ Processing...";
+
+    const response = await fetch("https://your-backend-url.onrender.com/process_file", {
+      method: "POST",
+      body: formData
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      recordTranscript.innerText = result.transcript || result.full_text || "✅ Done";
+    } else {
+      recordTranscript.innerText = "❌ Error processing audio";
+    }
+  };
+
+  mediaRecorder.start();
+  document.getElementById("recordBtn").disabled = true;
+  document.getElementById("stopBtn").disabled = false;
+});
+
+document.getElementById("stopBtn").addEventListener("click", () => {
+  mediaRecorder.stop();
+  document.getElementById("recordBtn").disabled = false;
+  document.getElementById("stopBtn").disabled = true;
 });

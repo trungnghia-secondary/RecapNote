@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RecapNote</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RecapNote - Tóm tắt ghi chú bằng giọng nói</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <!-- Header -->
@@ -16,7 +17,18 @@
     <nav>
       <a href="#features">Chi tiết</a>
       <a href="#pricing">Giá cả</a>
-      <button class="login-btn">Đăng nhập</button>
+      <div id="g_id_onload"
+           data-client_id="872966006027-6169b4h3nnjjnptdbcv3ebksre6oo911.apps.googleusercontent.com"
+           data-callback="handleCredentialResponse">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-size="medium"
+           data-theme="outline"
+           data-text="sign_in_with"
+           data-shape="rect"
+           data-logo_alignment="left">
+      </div>
     </nav>
   </header>
 
@@ -78,5 +90,13 @@
 
 
   <script src="script.js"></script>
+  <script>
+    function handleCredentialResponse(response) {
+      const data = jwt_decode(response.credential);
+      alert("Hello " + data.name + " (" + data.email + ")");
+      // TODO: gửi token về backend xác thực
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 </body>
 </html>

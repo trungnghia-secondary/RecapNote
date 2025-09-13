@@ -10,34 +10,85 @@
 <body>
   <!-- Navbar -->
   <header class="navbar">
-    <div class="logo">📘 RecapNote</div>
+    <div class="logo">
+      <img src="https://raw.githubusercontent.com/trungnghia-secondary/RecapNote/main/RECAPNOTE-LOGO-Black.png" alt="RecapNote Logo">
+      RecapNote
+    </div>
     <nav>
-      <a href="#features">Tính năng</a>
-      <a href="#pricing">Gói dịch vụ</a>
-      <a href="#faq">FAQ</a>
+      <a href="#features">Chi tiết</a>
+      <a href="#pricing">Giá cả</a>
     </nav>
     <!-- Google Sign In -->
     <div id="g_id_onload"
-         data-client_id="YOUR_CLIENT_ID.apps.googleusercontent.com"
-         data-context="signin"
-         data-ux_mode="popup"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
-    </div>
-    <div class="g_id_signin" data-type="standard"></div>
+           data-client_id="872966006027-6l69b4h3nnjjnptdbcv3ebksre6oo9l1.apps.googleusercontent.com"
+           data-context="signin"
+           data-ux_mode="popup"
+           data-callback="handleCredentialResponse"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-shape="rect"
+           data-theme="outline"
+           data-text="sign_in_with"
+           data-size="large">
+      </div>
   </header>
 
   <!-- Hero -->
   <section class="hero">
-    <h1>Chuyển đổi & Tóm tắt nội dung thông minh</h1>
-    <p>Tải file hoặc ghi âm để nhận bản tóm tắt ngay lập tức</p>
-
+    <h1>Trợ lí AI tóm tắt</h1>
+    <p>Chuyển đổi giọng nói thành văn bản để xử lí dễ dàng hơn</p>
     <form id="uploadForm">
-      <input type="file" id="fileInput" accept=".pdf,.docx,.mp3,.wav,.txt">
-      <button type="submit">📤 Tải lên</button>
+      <input type="file" id="fileInput" accept=".txt,.doc,.docx,.pdf,.wav,.mp3" required>
+      <button type="submit">Xử lí</button>
     </form>
-
     <div id="transcript"></div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="features">
+    <h2>Tính năng chính</h2>
+    <div class="feature-grid">
+      <div class="feature-card">⚡ Tóm tắt nhanh chóng</div>
+      <div class="feature-card">🌍 Hỗ trợ đa ngôn ngữ</div>
+      <div class="feature-card">💬 Chatbot AI hỗ trợ</div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="pricing">
+    <h2>Kế hoạch giá cả linh hoạt</h2>
+    <div class="plans">
+      <div class="plan">
+        <h3>Free</h3>
+        <p>VNĐ0</p>
+        <ul>
+          <li>Chuyển đổi đơn giản</li>
+          <li>Hỗ trợ lên đến 60 phút âm thanh</li>
+        </ul>
+        <button>Có sẵn</button>
+      </div>
+      <div class="plan highlighted">
+        <h3>Plus</h3>
+        <p>VNĐ99.000</p>
+        <ul>
+          <li>Xử lý ưu tiên</li>
+          <li>180 phút âm thanh</li>
+        </ul>
+        <button>Đăng kí ngay</button>
+      </div>
+      <div class="plan">
+        <h3>Premium</h3>
+        <p>VNDD199.000</p>
+        <ul>
+          <li>Model mạnh mẽ hơn</li>
+          <li>Tính năng nâng cao</li>
+          <li>1 tuần ghi âm và ưu tiên xử lí cao nhất</li>
+        </ul>
+        <button>Đăng kí ngay</button>
+      </div>
+    </div>
   </section>
 
   <script src="script.js"></script>
@@ -48,5 +99,6 @@
       console.log("Google User:", payload);
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 </body>
 </html>

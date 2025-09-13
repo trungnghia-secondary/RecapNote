@@ -1,10 +1,9 @@
 // Tab switching
-function openTab(evt, tabId) {
-  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-  document.getElementById(tabId).classList.add("active");
-  evt.currentTarget.classList.add("active");
-}
+<section class="upload-section">
+  <div class="tabs">
+    <button class="tab-button active" onclick="openTab('fileTab')">📂 Tải file</button>
+    <button class="tab-button" onclick="openTab('recordTab')">🎤 Ghi âm</button>
+  </div>
 
 // Upload form
 document.getElementById("uploadForm").addEventListener("submit", async (e) => {

@@ -18,7 +18,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: none;
+  background: white;
   border-bottom: 1px solid #e5e7eb;
   position: sticky;
   top: 0;

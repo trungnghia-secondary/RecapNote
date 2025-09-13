@@ -115,23 +115,35 @@ nav a:hover {
   background: #3730a3;
 }
 
+.upload-section {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 2rem;
+  text-align: center;
+}
+
 .tabs {
   display: flex;
   justify-content: center;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
 }
 
-.tab-btn {
-  padding: 0.6rem 1.2rem;
+.tab-button {
+  flex: 1;
+  padding: 0.7rem 1rem;
   border: none;
-  background: #e5e7eb;
   cursor: pointer;
-  border-radius: 6px 6px 0 0;
-  margin-right: 5px;
   font-weight: 600;
+  background: #e5e7eb;
+  color: #374151;
+  transition: all 0.2s;
+  border-radius: 8px 8px 0 0;
 }
 
-.tab-btn.active {
+.tab-button.active {
   background: #4f46e5;
   color: white;
 }
@@ -142,14 +154,41 @@ nav a:hover {
 
 .tab-content.active {
   display: block;
-  animation: fadeIn 0.3s ease-in-out;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.record-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
+.record-controls button {
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#startRecord {
+  background: #4f46e5;
+  color: white;
+}
+
+#startRecord:hover {
+  background: #3730a3;
+}
+
+#stopRecord {
+  background: #ef4444;
+  color: white;
+}
+
+#stopRecord:disabled {
+  background: #fca5a5;
+  cursor: not-allowed;
+}
 
 #transcript {
   margin-top: 1.5rem;

@@ -1,13 +1,18 @@
-// --- Tab switch ---
-function openTab(tabId) {
-  document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
-  document.querySelectorAll(".tab-button").forEach(el => el.classList.remove("active"));
+// Tab switching
+const tabBtns = document.querySelectorAll(".tab-btn");
+const tabContents = document.querySelectorAll(".tab-content");
 
-  document.getElementById(tabId).classList.add("active");
-  event.target.classList.add("active");
-}
+tabBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    tabBtns.forEach(b => b.classList.remove("active"));
+    tabContents.forEach(c => c.classList.remove("active"));
 
-// --- Upload file ---
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+  });
+});
+
+// Upload
 document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const fileInput = document.getElementById("fileInput");
@@ -17,53 +22,50 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   formData.append("file", fileInput.files[0]);
 
   const transcriptDiv = document.getElementById("transcript");
-  transcriptDiv.innerText = "⏳ Processing...";
+  transcriptDiv.innerText = "⏳ Đang xử lý...";
 
-  const response = await fetch("https://api-gateway-ovql.onrender.com/submit", {
-    method: "POST",
-    body: formData
-  });
+  try {
+    const response = await fetch("https://api-gateway-ovql.onrender.com/submit", {
+      method: "POST",
+      body: formData
+    });
 
-  if (response.ok) {
-    const result = await response.json();
-    transcriptDiv.innerText = result.transcript || result.full_text || "✅ Done";
-  } else {
-    transcriptDiv.innerText = "❌ Error processing file";
+    if (response.ok) {
+      const result = await response.json();
+      transcriptDiv.innerText = result.transcript || "✅ Hoàn tất";
+    } else {
+      transcriptDiv.innerText = "❌ Lỗi khi xử lý file";
+    }
+  } catch (err) {
+    transcriptDiv.innerText = "⚠️ Không thể kết nối server";
   }
 });
 
-// --- Recording with MediaRecorder ---
-let mediaRecorder;
-let audioChunks = [];
+// Recording
+let mediaRecorder, audioChunks = [];
 
-const startBtn = document.getElementById("startRecord");
-const stopBtn = document.getElementById("stopRecord");
-const transcriptDiv = document.getElementById("transcript");
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
+const audioPlayback = document.getElementById("audioPlayback");
 
 startBtn.addEventListener("click", async () => {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    alert("❌ Trình duyệt không hỗ trợ ghi âm");
-    return;
-  }
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  mediaRecorder = new MediaRecorder(stream);
+  audioChunks = [];
 
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorder = new MediaRecorder(stream);
-    audioChunks = [];
+  mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+  mediaRecorder.onstop = async () => {
+    const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+    const audioUrl = URL.createObjectURL(audioBlob);
+    audioPlayback.src = audioUrl;
+    audioPlayback.style.display = "block";
 
-    mediaRecorder.ondataavailable = event => {
-      if (event.data.size > 0) {
-        audioChunks.push(event.data);
-      }
-    };
+    // Gửi backend
+    const formData = new FormData();
+    formData.append("file", audioBlob, "recording.wav");
+    document.getElementById("transcript").innerText = "⏳ Đang xử lý ghi âm...";
 
-    mediaRecorder.onstop = async () => {
-      const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
-      const formData = new FormData();
-      formData.append("file", audioBlob, "recording.webm");
-
-      transcriptDiv.innerText = "⏳ Processing...";
-
+    try {
       const response = await fetch("https://api-gateway-ovql.onrender.com/submit", {
         method: "POST",
         body: formData
@@ -71,27 +73,22 @@ startBtn.addEventListener("click", async () => {
 
       if (response.ok) {
         const result = await response.json();
-        transcriptDiv.innerText = result.transcript || result.full_text || "✅ Done";
+        document.getElementById("transcript").innerText = result.transcript || "✅ Hoàn tất";
       } else {
-        transcriptDiv.innerText = "❌ Error processing recording";
+        document.getElementById("transcript").innerText = "❌ Lỗi khi xử lý ghi âm";
       }
-    };
+    } catch (err) {
+      document.getElementById("transcript").innerText = "⚠️ Không thể kết nối server";
+    }
+  };
 
-    mediaRecorder.start();
-    startBtn.disabled = true;
-    stopBtn.disabled = false;
-    transcriptDiv.innerText = "🎙 Đang ghi âm...";
-
-  } catch (err) {
-    console.error("Error accessing microphone:", err);
-    alert("❌ Không thể truy cập micro");
-  }
+  mediaRecorder.start();
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
 });
 
 stopBtn.addEventListener("click", () => {
-  if (mediaRecorder && mediaRecorder.state !== "inactive") {
-    mediaRecorder.stop();
-    startBtn.disabled = false;
-    stopBtn.disabled = true;
-  }
+  mediaRecorder.stop();
+  startBtn.disabled = false;
+  stopBtn.disabled = true;
 });

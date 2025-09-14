@@ -46,20 +46,43 @@
     </div>
     <div class="right-section">
     <!-- Google Sign-in button (thu gọn) -->
-      <div id="g_id_onload"
-           data-client_id="872966006027-6l69b4h3nnjjnptdbcv3ebksre6oo9l1.apps.googleusercontent.com"
-           data-context="signin"
-           data-ux_mode="popup"
-           data-callback="handleCredentialResponse"
-           data-auto_select="true">
-      </div>
-      <div class="g_id_signin"
-           data-type="icon"
-           data-shape="circle"
-           data-theme="outline"
-           data-text="signin"
-           data-size="medium">
-      </div>
+     <div id="g_id_onload"
+       data-client_id="YOUR_GOOGLE_CLIENT_ID"
+       data-callback="handleCredentialResponse">
+     </div>
+     <div id="googleLogin" class="g_id_signin" data-type="standard"></div>
+
+     <!-- Logout button (ẩn mặc định) -->
+     <button id="logoutBtn" style="display:none;" class="btn btn-outline">Đăng xuất</button>
+
+     <script>
+      // Xử lý callback khi Google login thành công
+      function handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + response.credential);
+
+      // Giả sử bạn decode token để lấy email/user name
+      localStorage.setItem("userLoggedIn", "true");
+
+      // Ẩn nút login, hiện logout
+      document.getElementById("googleLogin").style.display = "none";
+      document.getElementById("logoutBtn").style.display = "inline-block";
+      }
+
+      // Khi load lại trang, kiểm tra trạng thái
+      window.onload = function() {
+      if (localStorage.getItem("userLoggedIn") === "true") {
+        document.getElementById("googleLogin").style.display = "none";
+        document.getElementById("logoutBtn").style.display = "inline-block";
+        }
+      };
+
+      // Logout
+      document.getElementById("logoutBtn").addEventListener("click", function() {
+        localStorage.removeItem("userLoggedIn");
+        document.getElementById("googleLogin").style.display = "block";
+        document.getElementById("logoutBtn").style.display = "none";
+      });
+    </script>
     </div>
   </header>
 

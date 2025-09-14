@@ -69,30 +69,33 @@
   </section>
 
     <!-- Tabs -->
-  <section class="upload-section">
+  <div class="tab-container">
     <div class="tabs">
-      <button class="tab-button active" onclick="openTab('fileTab')">📂 Tải file</button>
-      <button class="tab-button" onclick="openTab('recordTab')">🎤 Ghi âm</button>
+      <button class="tab-btn active" data-tab="upload">📂 Tải file</button>
+      <button class="tab-btn" data-tab="record">🎤 Ghi âm</button>
     </div>
 
-      <!-- Upload File Tab -->
-      <div id="uploadTab" class="tab-content active">
-        <form id="uploadForm">
-          <input type="file" id="fileInput" accept=".txt,.doc,.docx,.pdf,.wav,.mp3" required>
-          <button type="submit">Xử lí</button>
-        </form>
-        <div id="transcript"></div>
-      </div>
+    <!-- Upload -->
+    <div class="tab-content active" id="upload">
+      <h2>📂 Tải file</h2>
+      <form id="uploadForm">
+        <input type="file" id="fileInput" />
+        <button type="submit" class="btn-primary">Tải lên</button>
+      </form>
+    </div>
 
-      <!-- Record Tab -->
-      <div class="tab-content" id="recordTab">
-        <h2>🎤 Ghi âm</h2>
-        <div class="record-controls">
-          <button id="startRecord" class="record-btn">🎙 Ghi âm</button>
-          <button id="stopRecord" class="record-btn" disabled>⏹ Dừng</button>
-        </div>
-        <div id="transcript"></div>
+    <!-- Record -->
+    <div class="tab-content" id="record">
+      <h2>🎤 Ghi âm</h2>
+      <div class="record-box">
+        <button id="startBtn" class="btn-primary">🎙️ Ghi âm</button>
+        <button id="stopBtn" class="btn-secondary" disabled>⏹️ Dừng</button>
       </div>
+      <audio id="audioPlayback" controls style="display:none;"></audio>
+    </div>
+  </div>
+
+<div id="transcript" class="output-box"></div>
 
 
   <!-- Features -->

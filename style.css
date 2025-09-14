@@ -80,7 +80,7 @@ body {
   gap: 10px;
 }
 
-.btn btn-outline {
+.logoutBtn {
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 8px;
@@ -93,7 +93,7 @@ body {
   box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
 }
 
-.btn btn-outline:hover {
+.logoutBtn:hover {
   background: #3730a3;
   transform: translateY(-2px);
 }

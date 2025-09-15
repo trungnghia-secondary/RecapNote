@@ -92,3 +92,49 @@ stopBtn.addEventListener("click", () => {
   startBtn.disabled = false;
   stopBtn.disabled = true;
 });
+
+//chatbot
+if (response.ok) {
+  const result = await response.json();
+  transcriptDiv.innerText = result.transcript || result.full_text || "✅ Done";
+
+  // Hiện chatbot
+  document.getElementById("chatbot").style.display = "block";
+}
+document.getElementById("sendChat").addEventListener("click", async () => {
+  const msgInput = document.getElementById("chatMessage");
+  const message = msgInput.value.trim();
+  if (!message) return;
+
+  const chatHistory = document.getElementById("chat-history");
+
+  // Hiển thị tin nhắn người dùng
+  const userMsg = document.createElement("div");
+  userMsg.className = "chat-message user";
+  userMsg.innerText = "🧑 " + message;
+  chatHistory.appendChild(userMsg);
+
+  msgInput.value = "";
+
+  // Gửi API chatbot
+  const res = await fetch("https://api-gateway-ovql.onrender.com/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question: message })
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    const botMsg = document.createElement("div");
+    botMsg.className = "chat-message bot";
+    botMsg.innerText = "🤖 " + data.answer;
+    chatHistory.appendChild(botMsg);
+  } else {
+    const errMsg = document.createElement("div");
+    errMsg.className = "chat-message bot";
+    errMsg.innerText = "❌ Lỗi khi gọi chatbot!";
+    chatHistory.appendChild(errMsg);
+  }
+
+  chatHistory.scrollTop = chatHistory.scrollHeight;
+});
